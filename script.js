@@ -1,6 +1,14 @@
 // Define the API URL
 const apiUrl = "https://services1.arcgis.com/79kfd2K6fskCAkyg/arcgis/rest/services/Louisville_Metro_KY_Inspection_Violations_of_Failed_Restaurants/FeatureServer/0/query?where=1%3D1&outFields=InspectionDate,premise_name,Insp_Viol_Comments&outSR=4326&f=json";
 
+function formatDate(timestamp) {
+    if (timestamp) {
+        const date = new Date(timestamp);
+        return date.toDateString(); // You can customize the date format as needed
+    }
+    return "N/A";
+}
+
 // Function to fetch and populate the table
 function populateTable() {
     fetch(apiUrl)
@@ -10,7 +18,7 @@ function populateTable() {
 
             data.features.forEach(feature => {
                 const attributes = feature.attributes;
-                const inspectionDate = attributes.InspectionDate || "N/A";
+                const inspectionDate = formatDate(attributes.InspectionDate) || "N/A";
                 const premiseName = attributes.premise_name || "N/A";
                 const violationComments = attributes.Insp_Viol_Comments || "N/A";
 
